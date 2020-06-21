@@ -13,6 +13,7 @@ The sample application exposes an Employee CRUD which saves data in an in-memory
  - Docker
  - AWS CLI
  - kubectl
+ - Postman (Optional. Only required if you intend on running some tests locally to test the Spring boot applciation)
  
 Make sure the AWS CLI is configured with a user that has admin access so that we do not run into any privilege issues when we run certain commands down the line.
  
@@ -103,4 +104,7 @@ Run the script file `build_docker.sh` which will build the docker image locally 
 
 
 
+## Postman Scripts
+
+- If you want to test the running application locally, you can install Postman and import the file `kube-demo.postman_collection.json` into it.
 
