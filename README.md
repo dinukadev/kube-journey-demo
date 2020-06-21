@@ -17,14 +17,14 @@ The sample application exposes an Employee CRUD which saves data in an in-memory
 Make sure the AWS CLI is configured with a user that has admin access so that we do not run into any privilege issues when we run certain commands down the line.
  
  
-## AWS
+## AWS configuration
 
 - Create an IAM user with the following 
 ```
 aws iam create-user --user-name automator
 ``` 
 
-Update the account id and the region according to what is application to you on the following files
+Update the account id, region, ECR repo URL according to what is applicable to you on the following files (Do not run these scripts yet)
 - create_ecr_repo.sh 
 ```
 ACCOUNT_ID=xxx
@@ -37,6 +37,24 @@ REGION=ap-southeast-2
 }
 ```
 
+- build_docker.sh
+```
+REGION=ap-souheast-2
+ECR_REPO=xxx.dkr.ecr.ap-southeast-2.amazonaws.com
+```
+
+ 
+- Create a new [key/pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) which we will then use to create the AWS EKS cluster
+- Extract the public key from that created key/pair using the following command replacing the `<kubepairfile>` with the name of the key pair you created and downloaded;
+```
+ssh-keygen -y -f <keypairfile>.pem  >> keypair.pub
+```
+- Creat the EKS cluster using the following command
+```
+eksctl create cluster --name kube-journey-demo-cluster --version 1.16 --region ap-southeast-2 --nodegroup-name kube-journey-demo-node-group --node-type t2.micro --nodes 2 --nodes-min 1 --nodes-max 2 --ssh-access --ssh-public-key keypair.pub --managed
+```
+
+This will create the AWS EKS cluster with a node group consisting of two t2.micro EC2 instances 
  
  
 ## Importing the code on IntelliJ/Eclipse
@@ -65,10 +83,15 @@ java -jar target/ms-kube*.jar
 
 ## Build (Docker)
 
-Use the following command to build the docker image and tag it as `ms-kubejourney:latest` locally
+- Run the script first to create the AWS ECR repository
+```
+./create_ecr.repo.sh
+```
+
+Run the script file `build_docker.sh` which will build the docker image locally and then push it to the AWS ECR repository
 
 ```
-docker build --force-rm=true -t ms-kubejourney:latest .
+./build_docker.sh
 ```
 
 

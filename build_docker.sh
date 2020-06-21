@@ -1,5 +1,13 @@
 #!/bin/bash
 
-~aws ecr batch-delete-image --repository-name $bamboo_SERVICE_NAME --image-ids imageTag=latest-$TAG_NAME --region ap-southeast-2
-docker tag $bamboo_SERVICE_NAME:latest 780795068345.dkr.ecr.ap-southeast-2.amazonaws.com/$bamboo_SERVICE_NAME:latest-$TAG_NAME
-docker push 780795068345.dkr.ecr.ap-southeast-2.amazonaws.com/$bamboo_SERVICE_NAME:latest-$TAG_NAME
+REGION=ap-souheast-2
+ECR_REPO=066170451082.dkr.ecr.ap-southeast-2.amazonaws.com
+MS_NAME=ms-kubejourney
+TAG=dev
+
+
+
+aws ecr batch-delete-image --repository-name $MS_NAME --image-ids imageTag=latest-$TAG --region $REGION
+docker build --force-rm=true -t $MS_NAME:latest .
+docker tag $MS_NAME:latest $ECR_REPO/$MS_NAME:latest-$TAG
+docker push $ECR_REPO/$MS_NAME:latest-$TAG
