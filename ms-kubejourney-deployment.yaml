@@ -55,7 +55,7 @@ spec:
               value: "-Xms256m"
             - name: XMX
               value: "-Xmx512m"
-            - name: XMX
+            - name: SUPER_SECRET
                 valueFrom:
                   secretKeyRef:
                     name: kubejourney-secrets
