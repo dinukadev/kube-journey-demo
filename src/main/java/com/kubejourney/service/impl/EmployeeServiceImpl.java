@@ -48,4 +48,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeDataCache.put(id, updatedEmployee);
         return EmployeeDtoAssembler.assemble(updatedEmployee);
     }
+
+    @Override
+    public void deleteEmployee(String id) {
+        employeeDataCache.remove(id);
+    }
 }

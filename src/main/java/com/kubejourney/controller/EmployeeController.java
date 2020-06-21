@@ -49,4 +49,10 @@ public class EmployeeController {
         return employee;
     }
 
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteEmployee(@PathVariable("id") String id) {
+       employeeService.deleteEmployee(id);
+    }
+
 }
