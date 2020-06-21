@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.kubejourney</groupId>
-	<artifactId>kubejourney</artifactId>
+	<artifactId>ms-kubejourney</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>kubejourney</name>
+	<name>ms-kubejourney</name>
 	<description>Demo project for the Kube Journey</description>
 
 	<properties>
