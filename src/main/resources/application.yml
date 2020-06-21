@@ -1,0 +1,16 @@
+server:
+  name: ms-kubejourney
+  port: 8080
+
+logging:
+  level:
+    org:
+      springframework: DEBUG
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: dev
+
+
