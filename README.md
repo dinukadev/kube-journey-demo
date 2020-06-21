@@ -56,6 +56,13 @@ eksctl create cluster --name kube-journey-demo-cluster --version 1.16 --region a
 
 This will create the AWS EKS cluster with a node group consisting of two t2.micro EC2 instances 
  
+
+## Changes to the Kubernetes deployment yaml
+- Change the ECR repository URL on the file `ms-kubejourney-deployment.yaml` with the ECR URL of your environment under the following
+```
+image: 066170451082.dkr.ecr.ap-southeast-2.amazonaws.com:latest-dev
+``` 
+ 
  
 ## Importing the code on IntelliJ/Eclipse
 

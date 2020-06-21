@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ns-demo
+  labels:
+    ns: ns-demo
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kubejourney-secrets
+  namespace: ns-demo
+type: Opaque
+data:
+  my-very-deep-secret: c29ycnkgbm8gc2VjcmV0cyB0b2RheQo=
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ms-kubejourney
+  namespace: ns-demo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ms-kubejourney
+    spec:
+      containers:
+        - name: ms-kubejourney
+          image: 066170451082.dkr.ecr.ap-southeast-2.amazonaws.com:latest-dev
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "10m"
+              memory: "256Mi"
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 15
+            failureThreshold: 5
+            periodSeconds: 20
+          env:
+            - name: ENVIRONMENT
+              value: dev
+            - name: XMS
+              value: "-Xms256m"
+            - name: XMX
+              value: "-Xmx512m"
+            - name: XMX
+                valueFrom:
+                  secretKeyRef:
+                    name: kubejourney-secrets
+                    key: keystore-pwd
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: ms-kubejourney
+  name: ms-kubejourney
+  namespace: ns-demo
+spec:
+  type: ClusterIP
+  ports:
+    - name: "application"
+      port: 80
+      targetPort: 8080
+  selector:
+    app: ms-kubejourney
