@@ -23,6 +23,21 @@ Make sure the AWS CLI is configured with a user that has admin access so that we
 ```
 aws iam create-user --user-name automator
 ``` 
+
+Update the account id and the region according to what is application to you on the following files
+- create_ecr_repo.sh 
+```
+ACCOUNT_ID=xxx
+REGION=ap-southeast-2
+```
+- ecr_policy.json
+```
+"Principal": {
+        "AWS": "arn:aws:iam::066170451082:user/automator"
+}
+```
+
+ 
  
 ## Importing the code on IntelliJ/Eclipse
 
