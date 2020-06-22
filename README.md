@@ -103,6 +103,24 @@ Run the script file `build_docker.sh` which will build the docker image locally 
 ./build_docker.sh
 ```
 
+- To deploy the NGINX reverse proxy, run the following commands
+```$xslt
+cd nginx/
+kubectl apply -f nginx-reverse-proxy-deployment.yaml
+```
+
+
+## Install the application in Kubernetes
+- Run the following command to deploy the application to Kubernetes
+```
+kubectl apply -f ms-kubejourney-deployment.yaml
+```
+
+- The deploy nginx using the following command
+```
+cd nginx/
+kubectl apply -f nginx-reverse-proxy-deployment.yaml
+```
 
 
 ## Postman Scripts
@@ -114,7 +132,7 @@ Run the script file `build_docker.sh` which will build the docker image locally 
 ## Tear down
 
 - Run the following to tear down everything done
-```$xslt
+```
 kubectl delete namespace ns-demo
 eksctl delete cluster --name kube-journey-demo-cluster
 ```
