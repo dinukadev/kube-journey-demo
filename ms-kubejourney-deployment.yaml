@@ -14,13 +14,16 @@ type: Opaque
 data:
   my-very-deep-secret: c29ycnkgbm8gc2VjcmV0cyB0b2RheQo=
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ms-kubejourney
   namespace: ns-demo
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: ms-kubejourney
   template:
     metadata:
       labels:
@@ -28,7 +31,7 @@ spec:
     spec:
       containers:
         - name: ms-kubejourney
-          image: 066170451082.dkr.ecr.ap-southeast-2.amazonaws.com:latest-dev
+          image: 066170451082.dkr.ecr.ap-southeast-2.amazonaws.com/ms-kubejourney:latest-dev
           imagePullPolicy: Always
           resources:
             requests:
@@ -56,11 +59,16 @@ spec:
             - name: XMX
               value: "-Xmx512m"
             - name: SUPER_SECRET
-                valueFrom:
-                  secretKeyRef:
-                    name: kubejourney-secrets
-                    key: my-very-deep-secret
-
+              valueFrom:
+                secretKeyRef:
+                  name: kubejourney-secrets
+                  key: my-very-deep-secret
+          volumeMounts:
+          - mountPath: /var/log/kube-journey
+            name: logs
+      volumes:
+      - name: logs
+        emptyDir: {}
 ---
 kind: Service
 apiVersion: v1
@@ -70,7 +78,7 @@ metadata:
   name: ms-kubejourney
   namespace: ns-demo
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: "application"
       port: 80

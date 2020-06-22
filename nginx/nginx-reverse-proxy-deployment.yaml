@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-reverse-proxy
+  namespace: ns-demo
+  labels:
+    k8s-app: nginx-reverse-proxy
+spec:
+  selector:
+    matchLabels:
+      app: nginx-reverse-proxy
+  template:
+    metadata:
+      labels:
+        app: nginx-reverse-proxy
+    spec:
+      containers:
+        - image:  066170451082.dkr.ecr.ap-southeast-2.amazonaws.com/nginx-reverse-proxy:latest-dev
+          imagePullPolicy: Always
+          name: nginx-reverse-proxy
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: nginx-reverse-proxy
+  name: nginx-reverse-proxy
+  namespace: ns-demo
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080
+      name: tcp-80
+  selector:
+    app: nginx-reverse-proxy
+
+
+
+

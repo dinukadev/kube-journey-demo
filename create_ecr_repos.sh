@@ -12,5 +12,5 @@ aws ecr describe-repositories --registry-id $ACCOUNT_ID --repository-names $REPO
 }
 
 createRepo ms-kubejourney
-
+createRepo nginx-reverse-proxy
 

@@ -2,7 +2,7 @@
 
 REGION=ap-southeast-2
 ECR_REPO=066170451082.dkr.ecr.ap-southeast-2.amazonaws.com
-MS_NAME=ms-kubejourney
+MS_NAME=nginx-reverse-proxy
 TAG=dev
 
 

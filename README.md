@@ -115,6 +115,6 @@ Run the script file `build_docker.sh` which will build the docker image locally 
 
 - Run the following to tear down everything done
 ```$xslt
-kubectl delete -f ms-journey-deployment.yaml
+kubectl delete namespace ns-demo
 eksctl delete cluster --name kube-journey-demo-cluster
 ```
