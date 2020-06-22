@@ -59,7 +59,7 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: kubejourney-secrets
-                    key: keystore-pwd
+                    key: my-very-deep-secret
 
 ---
 kind: Service
@@ -70,7 +70,7 @@ metadata:
   name: ms-kubejourney
   namespace: ns-demo
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: "application"
       port: 80

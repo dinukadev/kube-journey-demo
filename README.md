@@ -14,6 +14,7 @@ The sample application exposes an Employee CRUD which saves data in an in-memory
  - AWS CLI
  - kubectl
  - Postman (Optional. Only required if you intend on running some tests locally to test the Spring boot applciation)
+ - eksctl
  
 Make sure the AWS CLI is configured with a user that has admin access so that we do not run into any privilege issues when we run certain commands down the line.
  
@@ -50,7 +51,7 @@ ECR_REPO=xxx.dkr.ecr.ap-southeast-2.amazonaws.com
 ```
 ssh-keygen -y -f <keypairfile>.pem  >> keypair.pub
 ```
-- Creat the EKS cluster using the following command
+- Creat the EKS cluster using the following command. Note that this takes roughly around 10-15 minutes to complete.
 ```
 eksctl create cluster --name kube-journey-demo-cluster --version 1.16 --region ap-southeast-2 --nodegroup-name kube-journey-demo-node-group --node-type t2.micro --nodes 2 --nodes-min 1 --nodes-max 2 --ssh-access --ssh-public-key keypair.pub --managed
 ```
@@ -108,3 +109,12 @@ Run the script file `build_docker.sh` which will build the docker image locally 
 
 - If you want to test the running application locally, you can install Postman and import the file `kube-demo.postman_collection.json` into it.
 
+
+
+## Tear down
+
+- Run the following to tear down everything done
+```$xslt
+kubectl delete -f ms-journey-deployment.yaml
+eksctl delete cluster --name kube-journey-demo-cluster
+```
