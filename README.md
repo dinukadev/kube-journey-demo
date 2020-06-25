@@ -136,3 +136,4 @@ kubectl apply -f nginx-reverse-proxy-deployment.yaml
 kubectl delete namespace ns-demo
 eksctl delete cluster --name kube-journey-demo-cluster
 ```
+- Make sure to delete the ECR repositories you created as well by going into the AWS console and into AWS ECR
